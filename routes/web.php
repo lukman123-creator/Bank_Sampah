@@ -1,15 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-
- 
-
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('landing'); // Ganti ke landing.blade.php nantinya
@@ -21,12 +18,16 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 // Route untuk User Biasa (Hanya bisa diakses kalau sudah login)
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Akan diisi oleh Pekerja C
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/transaksi', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::post('/transaksi', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog.index');
+    Route::post('/katalog/tukar', [KatalogController::class, 'tukar'])->name('katalog.tukar');
 });
 
 // Route khusus Admin (Hanya bisa diakses admin)
 Route::middleware(['auth', 'is_admin'])->group(function () {
-    // Akan diisi oleh Pekerja D
+    // Akan diisi oleh Pekerja D (saat merge branch admin-logic)
 });
 
 Route::middleware('auth')->group(function () {

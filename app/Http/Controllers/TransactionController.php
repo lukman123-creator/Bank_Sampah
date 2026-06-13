@@ -29,6 +29,8 @@ class TransactionController extends Controller
             'jenis_sampah' => $request->jenis_sampah,
             'berat_kg' => $request->berat_kg,
             'total_harga' => $request->berat_kg * $harga_per_kg,
+            'type' => 'deposit',
+            'status' => 'pending',
         ]);
 
         return back()->with('success', 'Transaksi berhasil ditambahkan!');
