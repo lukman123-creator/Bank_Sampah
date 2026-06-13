@@ -27,7 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Route khusus Admin (Hanya bisa diakses admin)
 Route::middleware(['auth', 'is_admin'])->group(function () {
-    // Akan diisi oleh Pekerja D (saat merge branch admin-logic)
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::patch('/admin/transactions/{id}/approve', [AdminController::class, 'approveTransaction'])->name('admin.transactions.approve');
 });
 
 Route::middleware('auth')->group(function () {
