@@ -11,9 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Memanggil AdminSeeder
+        // Memanggil semua seeder
         $this->call([
             AdminSeeder::class,
+            RewardSeeder::class,
         ]);
     }
 }
