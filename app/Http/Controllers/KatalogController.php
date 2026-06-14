@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Reward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,37 +12,67 @@ class KatalogController extends Controller
     public function index()
     {
         $saldo = Auth::user()->balance;
-        return view('katalog', compact('saldo'));
+        $rewards = Reward::all();
+        return view('katalog', compact('saldo', 'rewards'));
     }
 
     public function tukar(Request $request)
     {
         $request->validate([
-            'harga' => 'required|numeric|min:1',
-            'nama_hadiah' => 'required|string'
+            'reward_id' => 'required|exists:rewards,id'
         ]);
 
         $user = Auth::user();
-        $harga_hadiah = $request->harga;
-        $nama_hadiah = $request->nama_hadiah;
+        $reward = Reward::find($request->reward_id);
 
-        if ($user->balance < $harga_hadiah) {
-            return back()->with('error', 'Maaf, saldo kamu tidak cukup!');
+        if ($user->balance < $reward->price) {
+            return back()->with('error', 'Maaf, saldo kamu tidak cukup untuk menukar ' . $reward->name . '!');
         }
 
         // Potong saldo
-        $user->decrement('balance', $harga_hadiah);
+        $user->decrement('balance', $reward->price);
 
         // Catat transaksi penarikan
         Transaction::create([
             'user_id' => $user->id,
-            'jenis_sampah' => 'Penarikan: ' . $nama_hadiah,
+            'jenis_sampah' => 'Penukaran: ' . $reward->name,
             'berat_kg' => 0,
-            'total_harga' => $harga_hadiah, // Positif di log tapi ini type withdrawal
+            'total_harga' => $reward->price,
             'type' => 'withdrawal',
             'status' => 'sukses'
         ]);
 
-        return back()->with('success', 'Berhasil menukar ' . $nama_hadiah . '! Saldo kamu telah dipotong.');
+        return back()->with('success', 'Berhasil menukar ' . $reward->name . '! Saldo kamu telah dipotong.');
+    }
+
+    public function withdrawBank(Request $request)
+    {
+        $request->validate([
+            'bank_name' => 'required|string',
+            'account_number' => 'required|string',
+            'amount' => 'required|numeric|min:10000'
+        ]);
+
+        $user = Auth::user();
+        $amount = $request->amount;
+
+        if ($user->balance < $amount) {
+            return back()->with('error', 'Maaf, saldo kamu tidak cukup untuk ditarik sebesar Rp ' . number_format($amount, 0, ',', '.') . '!');
+        }
+
+        // Potong saldo
+        $user->decrement('balance', $amount);
+
+        // Catat transaksi penarikan
+        Transaction::create([
+            'user_id' => $user->id,
+            'jenis_sampah' => 'Tarik Tunai Bank: ' . $request->bank_name . ' (' . $request->account_number . ')',
+            'berat_kg' => 0,
+            'total_harga' => $amount,
+            'type' => 'withdrawal',
+            'status' => 'sukses'
+        ]);
+
+        return back()->with('success', 'Berhasil melakukan penarikan ke ' . $request->bank_name . ' sejumlah Rp ' . number_format($amount, 0, ',', '.') . ' (Simulasi). Saldo kamu telah dipotong.');
     }
 }

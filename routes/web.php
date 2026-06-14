@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/transaksi', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog.index');
     Route::post('/katalog/tukar', [KatalogController::class, 'tukar'])->name('katalog.tukar');
+    Route::post('/katalog/withdraw', [KatalogController::class, 'withdrawBank'])->name('katalog.withdraw');
     Route::view('/panduan', 'panduan')->name('panduan');
 });
 
