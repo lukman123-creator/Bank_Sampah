@@ -26,6 +26,49 @@ Jika diterapkan di lingkungan masyarakat (seperti tingkat RT/RW atau Desa), apli
 
 ---
 
+## 🔄 Alur Kerja Sistem (Flowchart)
+
+Berikut adalah visualisasi bagaimana proses penyetoran sampah hingga penukaran hadiah (*reward*) berjalan di dalam aplikasi:
+
+```mermaid
+graph TD
+    %% Penentuan Warna (Styling)
+    classDef userNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+    classDef adminNode fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    classDef systemNode fill:#fef08a,stroke:#ca8a04,stroke-width:2px;
+    classDef startEnd fill:#f1f5f9,stroke:#475569,stroke-width:2px,stroke-dasharray: 5 5;
+
+    %% Alur Kerja
+    Start([Mulai]) ::: startEnd --> Auth[Warga Login / Daftar via Google OAuth] ::: userNode
+    Auth --> Aksi{Pilih Menu} ::: userNode
+    
+    %% Alur Setor Sampah
+    Aksi -->|Setor Sampah| Setor1[Warga Membawa Fisik Sampah ke Posko] ::: userNode
+    Setor1 --> Setor2[Warga Mengisi Form Setoran di Sistem] ::: userNode
+    Setor2 --> Setor3[Status Setoran: Menunggu Validasi Admin] ::: systemNode
+    
+    Setor3 --> ValSetor{Admin Cek & Timbang Fisik} ::: adminNode
+    ValSetor -->|Tidak Valid / Ditolak| BatalSetor[Transaksi Dibatalkan] ::: systemNode
+    ValSetor -->|Valid / Disetujui| SuksesSetor[Saldo Warga Bertambah Otomatis] ::: systemNode
+
+    %% Alur Tukar Saldo (Reward)
+    Aksi -->|Tukar Saldo| Tukar1[Warga Memilih Barang di Katalog Reward] ::: userNode
+    Tukar1 --> Tukar2[Warga Mengajukan Penukaran Saldo] ::: userNode
+    Tukar2 --> Tukar3[Saldo Ditahan Sementara & Status: Pending] ::: systemNode
+
+    Tukar3 --> ValTukar{Admin Cek Permintaan & Stok} ::: adminNode
+    ValTukar -->|Ditolak| BatalTukar[Saldo Dikembalikan Utuh ke Warga] ::: systemNode
+    ValTukar -->|Disetujui| SuksesTukar[Hadiah Fisik Diberikan & Saldo Terpotong Permanen] ::: systemNode
+
+    %% Selesai
+    BatalSetor --> Selesai([Selesai]) ::: startEnd
+    SuksesSetor --> Selesai
+    BatalTukar --> Selesai
+    SuksesTukar --> Selesai
+```
+
+---
+
 ## ✨ Fitur Utama
 
 ### 👤 Fitur Warga (Pengguna)
