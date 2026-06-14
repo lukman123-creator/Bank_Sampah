@@ -73,6 +73,7 @@
                         <thead>
                             <tr class="border-b border-gray-200 dark:border-white/10 transition-colors">
                                 <th class="pb-4 font-bold text-gray-400 dark:text-gray-500 text-sm tracking-wider uppercase transition-colors">Tanggal</th>
+                                <th class="pb-4 font-bold text-gray-400 dark:text-gray-500 text-sm tracking-wider uppercase transition-colors">Kode Trx</th>
                                 <th class="pb-4 font-bold text-gray-400 dark:text-gray-500 text-sm tracking-wider uppercase transition-colors">Jenis Sampah</th>
                                 <th class="pb-4 font-bold text-gray-400 dark:text-gray-500 text-sm tracking-wider uppercase transition-colors">Tipe</th>
                                 <th class="pb-4 font-bold text-gray-400 dark:text-gray-500 text-sm tracking-wider uppercase transition-colors">Status</th>
@@ -82,6 +83,7 @@
                             @forelse($recent_transactions ?? [] as $trx)
                             <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                                 <td class="py-5 font-semibold text-gray-500 dark:text-gray-400 transition-colors">{{ $trx->created_at->format('d M Y') }}</td>
+                                <td class="py-5 font-mono text-xs font-bold text-gray-400 dark:text-gray-500 transition-colors">{{ $trx->reference_code }}</td>
                                 <td class="py-5 font-bold text-gray-800 dark:text-gray-200 transition-colors">{{ $trx->jenis_sampah }}</td>
                                 <td class="py-5">
                                     <span class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider {{ $trx->type === 'deposit' ? 'bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/20' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700' }} transition-colors">
@@ -100,7 +102,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada transaksi. Ayo mulai setor sampah!</td>
+                                <td colspan="5" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada transaksi. Ayo mulai setor sampah!</td>
                             </tr>
                             @endforelse
                         </tbody>
