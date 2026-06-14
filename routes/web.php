@@ -27,9 +27,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Route khusus Admin (Hanya bisa diakses admin)
-Route::middleware(['auth', 'is_admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::patch('/admin/transactions/{id}/approve', [AdminController::class, 'approveTransaction'])->name('admin.transactions.approve');
+Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/analytics', [\App\Http\Controllers\AdminAnalyticsController::class, 'index'])->name('analytics');
+    Route::patch('/transactions/{id}/approve', [AdminController::class, 'approveTransaction'])->name('transactions.approve');
+    
+    // CRUD Rewards
+    Route::resource('rewards', \App\Http\Controllers\RewardController::class)->except(['create', 'show', 'edit']);
 });
 
 Route::middleware('auth')->group(function () {
