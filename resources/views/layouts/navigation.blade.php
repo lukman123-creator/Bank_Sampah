@@ -19,7 +19,7 @@
                         {{ __('Transaksi') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('katalog')" :active="request()->routeIs('katalog')">
+                    <x-nav-link :href="route('katalog.index')" :active="request()->routeIs('katalog.*')">
                         {{ __('Katalog Hadiah') }}
                     </x-nav-link>
                     <x-nav-link :href="route('panduan')" :active="request()->routeIs('panduan')">
@@ -82,7 +82,7 @@
             {{ __('Transaksi') }}
         </x-responsive-nav-link>
 
-        <x-responsive-nav-link :href="route('katalog')" :active="request()->routeIs('katalog')">
+        <x-responsive-nav-link :href="route('katalog.index')" :active="request()->routeIs('katalog.*')">
             {{ __('Katalog Hadiah') }}
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('panduan')" :active="request()->routeIs('panduan')">
