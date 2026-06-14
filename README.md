@@ -32,12 +32,6 @@ Berikut adalah visualisasi bagaimana proses penyetoran sampah hingga penukaran h
 
 ```mermaid
 flowchart TD
-    %% Penentuan Warna (Styling)
-    classDef userNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
-    classDef adminNode fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
-    classDef systemNode fill:#fef08a,stroke:#ca8a04,stroke-width:2px;
-    classDef startEnd fill:#f1f5f9,stroke:#475569,stroke-width:2px,stroke-dasharray: 5 5;
-
     %% Alur Kerja
     Start([Mulai]) --> Auth[Warga Login / Daftar via Google OAuth]
     Auth --> Aksi{Pilih Menu}
@@ -65,12 +59,6 @@ flowchart TD
     SuksesSetor --> Selesai
     BatalTukar --> Selesai
     SuksesTukar --> Selesai
-
-    %% Penerapan Warna
-    class Start,Selesai startEnd;
-    class Auth,Aksi,Setor1,Setor2,Tukar1,Tukar2 userNode;
-    class Setor3,BatalSetor,SuksesSetor,Tukar3,BatalTukar,SuksesTukar systemNode;
-    class ValSetor,ValTukar adminNode;
 ```
 
 ---
