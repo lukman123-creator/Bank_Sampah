@@ -37,7 +37,7 @@
             <div class="bg-white/80 dark:bg-[#0a110d]/60 backdrop-blur-xl border border-gray-200 dark:border-white/10 overflow-hidden shadow-2xl rounded-[2.5rem] mb-10 p-8 lg:p-10 relative group hover:-translate-y-1 transition-all duration-300 animate-slideUp" style="animation-delay: 0.2s;">
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-green-500/5 dark:bg-green-500/10 rounded-full mix-blend-overlay filter blur-3xl opacity-50 group-hover:scale-110 transition-transform duration-700"></div>
                 <h3 class="text-gray-500 dark:text-gray-400 text-sm uppercase font-bold tracking-wider mb-2 relative z-10 transition-colors">Saldo Tersedia Kamu</h3>
-                <p class="text-5xl font-black text-gray-900 dark:text-white relative z-10 transition-colors"><span class="text-2xl text-gray-400 dark:text-gray-500 mr-2">Rp</span>{{ number_format($saldo, 0, ',', '.') }}</p>
+                <p class="text-5xl font-black text-gray-900 dark:text-white relative z-10 transition-colors" x-data="numberCounter({{ $saldo }}, true)"><span class="text-2xl text-gray-400 dark:text-gray-500 mr-2">Rp</span><span x-text="formatted()"></span></p>
             </div>
 
             <!-- Katalog Grid -->

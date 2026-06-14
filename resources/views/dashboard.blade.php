@@ -31,7 +31,7 @@
                 <div class="bg-white/80 dark:bg-[#0a110d]/60 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-[2rem] p-8 shadow-xl flex items-center justify-between group hover:-translate-y-2 transition-all duration-300 animate-slideUp" style="animation-delay: 2.4s;">
                     <div>
                         <h4 class="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider text-sm mb-2 transition-colors">Total Sampah Disetor</h4>
-                        <p class="text-5xl font-black text-gray-900 dark:text-white transition-colors">{{ $total_berat ?? 0 }}<span class="text-2xl font-bold text-gray-400 dark:text-gray-500 ml-2">Kg</span></p>
+                        <p class="text-5xl font-black text-gray-900 dark:text-white transition-colors" x-data="numberCounter({{ $total_berat ?? 0 }})"><span x-text="formatted()"></span><span class="text-2xl font-bold text-gray-400 dark:text-gray-500 ml-2">Kg</span></p>
                         <p class="text-sm font-semibold text-green-600 dark:text-green-500 mt-4 flex items-center gap-2 transition-colors">
                             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                             Berkontribusi aktif
@@ -47,7 +47,7 @@
                 <div class="bg-white/80 dark:bg-[#0a110d]/60 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-[2rem] p-8 shadow-xl flex items-center justify-between group hover:-translate-y-2 transition-all duration-300 animate-slideUp" style="animation-delay: 2.6s;">
                     <div>
                         <h4 class="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider text-sm mb-2 transition-colors">Saldo Dompet</h4>
-                        <p class="text-5xl font-black text-gray-900 dark:text-white transition-colors"><span class="text-2xl font-bold text-gray-400 dark:text-gray-500 mr-2">Rp</span>{{ number_format($total_saldo ?? 0, 0, ',', '.') }}</p>
+                        <p class="text-5xl font-black text-gray-900 dark:text-white transition-colors" x-data="numberCounter({{ $total_saldo ?? 0 }}, true)"><span class="text-2xl font-bold text-gray-400 dark:text-gray-500 mr-2">Rp</span><span x-text="formatted()"></span></p>
                         <p class="text-sm font-semibold text-green-600 dark:text-green-500 mt-4 flex items-center gap-2 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             Tarik tunai kapan saja

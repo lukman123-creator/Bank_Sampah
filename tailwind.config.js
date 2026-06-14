@@ -16,13 +16,9 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             keyframes: {
-                typing: {
-                    '0%': { width: '0%', visibility: 'hidden' },
-                    '100%': { width: '100%' },
-                },
                 blink: {
-                    '50%': { borderColor: 'transparent' },
-                    '100%': { borderColor: 'white' },
+                    '0%, 100%': { borderColor: 'transparent' },
+                    '50%': { borderColor: 'currentColor' },
                 },
                 slideUp: {
                     '0%': { opacity: '0', transform: 'translateY(20px)' },
@@ -34,7 +30,7 @@ export default {
                 }
             },
             animation: {
-                typing: 'typing 2s steps(20) alternate, blink .7s infinite',
+                blink: 'blink 1s step-end infinite',
                 slideUp: 'slideUp 0.6s ease-out forwards',
                 fadeIn: 'fadeIn 0.8s ease-out forwards',
             }

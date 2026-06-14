@@ -14,9 +14,35 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Pre-load Dark Mode to prevent FOUC -->
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('numberCounter', (target, isCurrency = false) => ({
+                count: 0,
+                target: Number(target),
+                init() {
+                    let duration = 1500; // 1.5 seconds
+                    let steps = 60;
+                    let stepValue = this.target / steps;
+                    let currentStep = 0;
+                    let interval = setInterval(() => {
+                        currentStep++;
+                        this.count = Math.floor(stepValue * currentStep);
+                        if (currentStep >= steps) {
+                            this.count = this.target;
+                            clearInterval(interval);
+                        }
+                    }, duration / steps);
+                },
+                formatted() {
+                    if (isCurrency) {
+                        return new Intl.NumberFormat('id-ID').format(this.count);
+                    }
+                    return this.count;
+                }
+            }))
+        });
+
+        // Pre-load Dark Mode to prevent FOUC
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         } else {

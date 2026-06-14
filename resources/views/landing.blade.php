@@ -76,9 +76,9 @@
                 <div class="p-8 md:p-10 rounded-[2.5rem] bg-white/80 dark:bg-[#0a110d]/40 backdrop-blur-xl border border-gray-200 dark:border-white/10 shadow-2xl animate-fadeIn transition-colors duration-300">
                     
                     <!-- Typing Animation for Main Title -->
-                    <div class="inline-block overflow-hidden whitespace-nowrap border-r-4 border-green-600 dark:border-green-500 animate-typing mb-4">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl py-2 transition-colors">
-                            Kelola sampahmu,
+                    <div class="mb-4 flex items-center h-12 sm:h-16 md:h-20" x-data="{ text: '', fullText: 'Kelola sampahmu,' }" x-init="let i = 0; setTimeout(() => { let int = setInterval(() => { text += fullText[i]; i++; if(i === fullText.length) clearInterval(int); }, 100) }, 500)">
+                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl transition-colors">
+                            <span x-text="text"></span><span class="border-r-4 border-green-600 dark:border-green-500 animate-blink h-full inline-block ml-1 align-bottom text-transparent">_</span>
                         </h1>
                     </div>
                     <h1 class="text-4xl tracking-tight font-extrabold text-green-600 dark:text-green-400 sm:text-5xl md:text-6xl animate-slideUp transition-colors" style="animation-delay: 2s;">

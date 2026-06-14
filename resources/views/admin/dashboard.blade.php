@@ -20,7 +20,7 @@
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1 transition-colors">Total Setoran Sampah</h3>
             <div class="flex items-end justify-between">
                 <div>
-                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors">{{ $transactions->count() }} <span class="text-lg font-medium text-gray-400 dark:text-gray-500 transition-colors">trx</span></div>
+                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors" x-data="numberCounter({{ $transactions->where('type', 'deposit')->count() }})"><span x-text="formatted()"></span> <span class="text-lg font-medium text-gray-400 dark:text-gray-500 transition-colors">trx</span></div>
                     <div class="text-xs font-semibold text-green-600 dark:text-green-400 mt-2 flex items-center gap-1 transition-colors">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
                         12% from last month
@@ -39,7 +39,7 @@
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1 transition-colors">Setoran Pending</h3>
             <div class="flex items-end justify-between">
                 <div>
-                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors">{{ $transactions->where('status', 'pending')->count() }}</div>
+                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors" x-data="numberCounter({{ $transactions->where('status', 'pending')->count() }})" x-text="formatted()"></div>
                     <div class="text-xs font-semibold text-amber-600 dark:text-amber-400 mt-2 flex items-center gap-1 transition-colors">
                         Menunggu verifikasi
                     </div>
@@ -57,7 +57,7 @@
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-1 transition-colors">Total Payout</h3>
             <div class="flex items-end justify-between">
                 <div>
-                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors">Rp {{ number_format($transactions->where('status', 'approved')->sum('total_harga'), 0, ',', '.') }}</div>
+                    <div class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors" x-data="numberCounter({{ $transactions->where('type', 'withdrawal')->where('status', 'sukses')->sum('total_harga') }}, true)">Rp <span x-text="formatted()"></span></div>
                     <div class="text-xs font-semibold text-green-600 dark:text-green-400 mt-2 flex items-center gap-1 transition-colors">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
                         8.5% from last month
