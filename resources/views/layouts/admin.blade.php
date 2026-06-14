@@ -76,14 +76,20 @@
             </div>
 
             <nav class="flex-1 px-4 space-y-2">
-                <!-- Active Link -->
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 rounded-2xl font-medium shadow-sm border border-green-200 dark:border-green-500/30 transition-colors">
+                <!-- Dashboard -->
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.dashboard') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
                     <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                     Dashboard
                 </a>
 
-                <!-- Inactive Link -->
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white rounded-2xl font-medium transition-colors border border-transparent">
+                <!-- Katalog Hadiah -->
+                <a href="{{ route('admin.rewards.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.rewards.*') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
+                    <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    Katalog Hadiah
+                </a>
+
+                <!-- Analytics -->
+                <a href="{{ route('admin.analytics') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.analytics') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
                     <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     Analytics
                 </a>
