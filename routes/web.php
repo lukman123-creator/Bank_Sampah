@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 // Route Google OAuth
-Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google.login');
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('login.google');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 // Route untuk User Biasa (Hanya bisa diakses kalau sudah login)
