@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
@@ -27,6 +28,7 @@ class TransactionController extends Controller
         $harga_per_kg = 2000;
 
         Transaction::create([
+            'reference_code' => 'TRX-' . strtoupper(Str::random(6)),
             'user_id' => Auth::id(),
             'jenis_sampah' => $request->jenis_sampah,
             'berat_kg' => $request->berat_kg,

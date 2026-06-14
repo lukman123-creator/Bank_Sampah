@@ -6,6 +6,7 @@ use App\Models\Reward;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class KatalogController extends Controller
 {
@@ -35,6 +36,7 @@ class KatalogController extends Controller
 
         // Catat transaksi penarikan
         Transaction::create([
+            'reference_code' => 'TRX-' . strtoupper(Str::random(6)),
             'user_id' => $user->id,
             'jenis_sampah' => 'Penukaran: '.$reward->name,
             'berat_kg' => 0,
@@ -66,6 +68,7 @@ class KatalogController extends Controller
 
         // Catat transaksi penarikan
         Transaction::create([
+            'reference_code' => 'TRX-' . strtoupper(Str::random(6)),
             'user_id' => $user->id,
             'jenis_sampah' => 'Tarik Tunai Bank: '.$request->bank_name.' ('.$request->account_number.')',
             'berat_kg' => 0,

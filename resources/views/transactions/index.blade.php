@@ -66,6 +66,7 @@
                         <thead>
                             <tr class="border-b border-gray-200 dark:border-white/10 transition-colors">
                                 <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Tanggal</th>
+                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Kode Trx</th>
                                 <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Jenis Sampah</th>
                                 <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Berat</th>
                                 <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Tipe</th>
@@ -77,6 +78,7 @@
                             @forelse($transactions as $trx)
                             <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                                 <td class="py-5 font-semibold text-gray-600 dark:text-gray-400 transition-colors">{{ $trx->created_at->format('d M Y') }}</td>
+                                <td class="py-5 font-mono text-xs font-bold text-gray-500 dark:text-gray-400 transition-colors">{{ $trx->reference_code }}</td>
                                 <td class="py-5 font-bold text-gray-800 dark:text-gray-200 transition-colors">{{ $trx->jenis_sampah }}</td>
                                 <td class="py-5 font-semibold text-gray-700 dark:text-gray-300 transition-colors">{{ floatval($trx->berat_kg) }} Kg</td>
                                 <td class="py-5">
@@ -97,7 +99,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada riwayat transaksi. Ayo setor sampah pertamamu!</td>
+                                <td colspan="7" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada riwayat transaksi. Ayo setor sampah pertamamu!</td>
                             </tr>
                             @endforelse
                         </tbody>

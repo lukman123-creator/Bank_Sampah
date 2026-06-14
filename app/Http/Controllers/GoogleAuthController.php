@@ -28,6 +28,7 @@ class GoogleAuthController extends Controller
             // Gabungan stateless() dan Bypass SSL (cURL error 60)
             /** @var GoogleProvider $driver */
             $driver = Socialite::driver('google');
+            /** @var \Laravel\Socialite\Two\User $googleUser */
             $googleUser = $driver
                 ->stateless()
                 ->setHttpClient(new Client(['verify' => false]))

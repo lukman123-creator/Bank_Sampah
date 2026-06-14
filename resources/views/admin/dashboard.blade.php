@@ -78,6 +78,7 @@
                 <thead>
                     <tr class="border-b border-gray-200 dark:border-white/10 transition-colors">
                         <th class="py-4 font-bold text-gray-500 dark:text-gray-500 text-xs uppercase tracking-wider transition-colors">Date & Time</th>
+                        <th class="py-4 font-bold text-gray-500 dark:text-gray-500 text-xs uppercase tracking-wider transition-colors">Trx Code</th>
                         <th class="py-4 font-bold text-gray-500 dark:text-gray-500 text-xs uppercase tracking-wider transition-colors">User</th>
                         <th class="py-4 font-bold text-gray-500 dark:text-gray-500 text-xs uppercase tracking-wider transition-colors">Waste Type</th>
                         <th class="py-4 font-bold text-gray-500 dark:text-gray-500 text-xs uppercase tracking-wider transition-colors">Weight</th>
@@ -90,6 +91,7 @@
                     @php /** @var \App\Models\Transaction $trx */ @endphp
                     <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                         <td class="py-4 text-sm text-gray-600 dark:text-gray-400 font-medium transition-colors">{{ $trx->created_at->format('d M, Y \a\t H:i') }}</td>
+                        <td class="py-4 font-mono text-xs font-bold text-gray-500 dark:text-gray-400 transition-colors">{{ $trx->reference_code }}</td>
                         <td class="py-4 text-sm font-bold text-gray-800 dark:text-gray-200 flex items-center gap-3 transition-colors">
                             <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-xs text-gray-800 dark:text-white border border-gray-200 dark:border-white/10 transition-colors">
                                 {{ substr($trx->user->name, 0, 1) }}
@@ -122,7 +124,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">No transactions awaiting verification.</td>
+                        <td colspan="7" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">No transactions awaiting verification.</td>
                     </tr>
                     @endforelse
                 </tbody>
