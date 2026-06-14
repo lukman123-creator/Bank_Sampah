@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('jenis_sampah');
             $table->decimal('berat_kg', 8, 2);
             $table->integer('total_harga');
+            $table->string('type')->default('deposit'); // 'deposit' atau 'withdrawal'
             $table->string('status')->default('pending');
             $table->timestamps();
         });
