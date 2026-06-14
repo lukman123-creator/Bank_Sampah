@@ -13,7 +13,8 @@ return new class extends Migration
             $table->string('reference_code')->unique();
             // Menyambungkan transaksi dengan user yang login
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('jenis_sampah');
+            $table->foreignId('waste_type_id')->nullable()->constrained('waste_types')->onDelete('set null');
+            $table->string('jenis_sampah')->nullable();
             $table->decimal('berat_kg', 8, 2);
             $table->integer('total_harga');
             $table->string('type')->default('deposit'); // 'deposit' atau 'withdrawal'

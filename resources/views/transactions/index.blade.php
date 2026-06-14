@@ -32,10 +32,10 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
                         <div class="md:col-span-5">
                             <label class="block text-sm font-bold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide transition-colors">Jenis Sampah</label>
-                            <select name="jenis_sampah" class="block w-full rounded-2xl border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/5 px-4 py-3.5 text-gray-900 dark:text-white focus:border-green-600 dark:focus:border-green-500 focus:ring-green-600 dark:focus:ring-green-500 focus:bg-white dark:focus:bg-white/10 transition-colors">
-                                <option class="bg-white dark:bg-gray-900" value="Plastik">Plastik (Botol, Gelas, dll)</option>
-                                <option class="bg-white dark:bg-gray-900" value="Kertas">Kertas (Kardus, Koran, dll)</option>
-                                <option class="bg-white dark:bg-gray-900" value="Logam">Logam (Besi, Kaleng, dll)</option>
+                            <select name="waste_type_id" class="block w-full rounded-2xl border-gray-300 dark:border-white/10 bg-gray-50 dark:bg-white/5 px-4 py-3.5 text-gray-900 dark:text-white focus:border-green-600 dark:focus:border-green-500 focus:ring-green-600 dark:focus:ring-green-500 focus:bg-white dark:focus:bg-white/10 transition-colors">
+                                @foreach($wasteTypes as $type)
+                                    <option class="bg-white dark:bg-gray-900" value="{{ $type->id }}">{{ $type->name }} (Rp {{ number_format($type->price_per_kg, 0, ',', '.') }}/Kg)</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="md:col-span-4">

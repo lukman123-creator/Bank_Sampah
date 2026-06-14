@@ -37,6 +37,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 
     // CRUD Rewards
     Route::resource('rewards', RewardController::class)->except(['create', 'show', 'edit']);
+    
+    // CRUD Waste Types (Master Sampah)
+    Route::resource('waste-types', App\Http\Controllers\Admin\WasteTypeController::class)->except(['create', 'show', 'edit']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -36,7 +36,7 @@ class KatalogController extends Controller
 
         // Catat transaksi penarikan
         Transaction::create([
-            'reference_code' => 'TRX-' . strtoupper(Str::random(6)),
+            'reference_code' => 'TKR-' . strtoupper(Str::random(6)),
             'user_id' => $user->id,
             'jenis_sampah' => 'Penukaran: '.$reward->name,
             'berat_kg' => 0,
@@ -68,7 +68,7 @@ class KatalogController extends Controller
 
         // Catat transaksi penarikan
         Transaction::create([
-            'reference_code' => 'TRX-' . strtoupper(Str::random(6)),
+            'reference_code' => 'WD-' . strtoupper(Str::random(6)),
             'user_id' => $user->id,
             'jenis_sampah' => 'Tarik Tunai Bank: '.$request->bank_name.' ('.$request->account_number.')',
             'berat_kg' => 0,
