@@ -1,9 +1,6 @@
 <x-admin-layout>
     <div class="flex items-center justify-between mb-8 animate-slideUp">
         <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight transition-colors">Dashboard</h1>
-        <button class="bg-[#108945] hover:bg-[#0c6b35] text-white px-5 py-2.5 rounded-xl font-semibold shadow-[0_0_15px_rgba(16,137,69,0.4)] transition-all text-sm border border-transparent">
-            Add Custom Widget
-        </button>
     </div>
 
     @if(session('success'))
