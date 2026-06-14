@@ -57,53 +57,99 @@
                 </form>
             </div>
 
-            <!-- Transaction History Table -->
-            <div class="bg-white/80 dark:bg-[#0a110d]/60 backdrop-blur-xl rounded-[2.5rem] p-8 lg:p-10 shadow-2xl border border-gray-200 dark:border-white/10 animate-slideUp transition-colors duration-300" style="animation-delay: 0.6s;">
-                <h3 class="text-2xl font-bold mb-8 text-gray-900 dark:text-white transition-colors">Riwayat Setoran</h3>
+            <!-- Tab Group: Deposit & Withdrawal -->
+            <div class="grid grid-cols-1 gap-8">
                 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse whitespace-nowrap">
-                        <thead>
-                            <tr class="border-b border-gray-200 dark:border-white/10 transition-colors">
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Tanggal</th>
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Kode Trx</th>
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Jenis Sampah</th>
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Berat</th>
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Tipe</th>
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Pendapatan</th>
-                                <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100 dark:divide-white/5 transition-colors">
-                            @forelse($transactions as $trx)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
-                                <td class="py-5 font-semibold text-gray-600 dark:text-gray-400 transition-colors">{{ $trx->created_at->format('d M Y') }}</td>
-                                <td class="py-5 font-mono text-xs font-bold text-gray-500 dark:text-gray-400 transition-colors">{{ $trx->reference_code }}</td>
-                                <td class="py-5 font-bold text-gray-800 dark:text-gray-200 transition-colors">{{ $trx->jenis_sampah }}</td>
-                                <td class="py-5 font-semibold text-gray-700 dark:text-gray-300 transition-colors">{{ floatval($trx->berat_kg) }} Kg</td>
-                                <td class="py-5">
-                                    <span class="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider {{ $trx->type === 'deposit' ? 'bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/20' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700' }} transition-colors">
-                                        {{ $trx->type }}
-                                    </span>
-                                </td>
-                                <td class="py-5 font-black text-green-600 dark:text-green-400 transition-colors">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</td>
-                                <td class="py-5">
-                                    <span class="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors
-                                        {{ $trx->status === 'pending' ? 'bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20' : '' }}
-                                        {{ $trx->status === 'approved' ? 'bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/20' : '' }}
-                                        {{ $trx->status === 'rejected' ? 'bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/20' : '' }}
-                                    ">
-                                        {{ $trx->status }}
-                                    </span>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada riwayat transaksi. Ayo setor sampah pertamamu!</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <!-- Deposit History Table -->
+                <div class="bg-white/80 dark:bg-[#0a110d]/60 backdrop-blur-xl rounded-[2.5rem] p-8 lg:p-10 shadow-2xl border border-gray-200 dark:border-white/10 animate-slideUp transition-colors duration-300" style="animation-delay: 0.6s;">
+                    <h3 class="text-2xl font-bold mb-8 text-gray-900 dark:text-white transition-colors flex items-center gap-3">
+                        <svg class="w-6 h-6 text-green-600 dark:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        Riwayat Setoran Sampah
+                    </h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse whitespace-nowrap">
+                            <thead>
+                                <tr class="border-b border-gray-200 dark:border-white/10 transition-colors">
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Tanggal</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Kode Trx</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Jenis Sampah</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Berat</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Pendapatan</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 dark:divide-white/5 transition-colors">
+                                @forelse($transactions->where('type', 'deposit') as $trx)
+                                <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                                    <td class="py-5 font-semibold text-gray-600 dark:text-gray-400 transition-colors">{{ $trx->created_at->format('d M Y') }}</td>
+                                    <td class="py-5 font-mono text-xs font-bold text-gray-500 dark:text-gray-400 transition-colors">{{ $trx->reference_code }}</td>
+                                    <td class="py-5 font-bold text-gray-800 dark:text-gray-200 transition-colors">{{ $trx->jenis_sampah }}</td>
+                                    <td class="py-5 font-semibold text-gray-700 dark:text-gray-300 transition-colors">{{ floatval($trx->berat_kg) }} Kg</td>
+                                    <td class="py-5 font-black text-green-600 dark:text-green-400 transition-colors">+ Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</td>
+                                    <td class="py-5">
+                                        <span class="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors
+                                            {{ $trx->status === 'pending' ? 'bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20' : '' }}
+                                            {{ $trx->status === 'approved' ? 'bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/20' : '' }}
+                                            {{ $trx->status === 'rejected' ? 'bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/20' : '' }}
+                                        ">
+                                            {{ $trx->status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada riwayat setor sampah.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Withdrawal History Table -->
+                <div class="bg-white/80 dark:bg-[#0a110d]/60 backdrop-blur-xl rounded-[2.5rem] p-8 lg:p-10 shadow-2xl border border-gray-200 dark:border-white/10 animate-slideUp transition-colors duration-300" style="animation-delay: 0.8s;">
+                    <h3 class="text-2xl font-bold mb-8 text-gray-900 dark:text-white transition-colors flex items-center gap-3">
+                        <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                        Riwayat Penukaran & Tarik Tunai
+                    </h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse whitespace-nowrap">
+                            <thead>
+                                <tr class="border-b border-gray-200 dark:border-white/10 transition-colors">
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Tanggal</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Kode Trx</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Item / Bank</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Nominal</th>
+                                    <th class="pb-4 font-bold text-gray-500 dark:text-gray-500 text-sm uppercase tracking-wider transition-colors">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 dark:divide-white/5 transition-colors">
+                                @forelse($transactions->where('type', 'withdrawal') as $trx)
+                                <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+                                    <td class="py-5 font-semibold text-gray-600 dark:text-gray-400 transition-colors">{{ $trx->created_at->format('d M Y') }}</td>
+                                    <td class="py-5 font-mono text-xs font-bold text-gray-500 dark:text-gray-400 transition-colors">{{ $trx->reference_code }}</td>
+                                    <td class="py-5 font-bold text-gray-800 dark:text-gray-200 transition-colors">{{ $trx->jenis_sampah }}</td>
+                                    <td class="py-5 font-black text-indigo-500 transition-colors">- Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</td>
+                                    <td class="py-5">
+                                        <span class="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors
+                                            {{ $trx->status === 'pending' ? 'bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20' : '' }}
+                                            {{ $trx->status === 'sukses' ? 'bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20' : '' }}
+                                            {{ $trx->status === 'rejected' ? 'bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/20' : '' }}
+                                        ">
+                                            {{ $trx->status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="py-12 text-center text-gray-500 font-medium bg-gray-50 dark:bg-white/5 rounded-2xl mt-4 border border-gray-100 dark:border-white/5 transition-colors">Belum ada riwayat penarikan / penukaran.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
