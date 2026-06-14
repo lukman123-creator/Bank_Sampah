@@ -38,7 +38,10 @@ class GoogleAuthController extends Controller
             // Login-kan user ke sistem Laravel
             Auth::login($user);
 
-            // Arahkan ke dashboard
+            // Arahkan ke dashboard sesuai role
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
             return redirect('/dashboard');
 
         } catch (\GuzzleHttp\Exception\ClientException $e) {
