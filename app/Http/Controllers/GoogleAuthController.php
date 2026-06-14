@@ -13,7 +13,9 @@ class GoogleAuthController extends Controller
     public function redirect()
     {
         // Tambahkan stateless() untuk mengabaikan error session
-        return Socialite::driver('google')->stateless()->redirect();
+        /** @var \Laravel\Socialite\Two\GoogleProvider $driver */
+        $driver = Socialite::driver('google');
+        return $driver->stateless()->redirect();
     }
 
     // Menangani kembalian data dari Google
@@ -21,7 +23,9 @@ class GoogleAuthController extends Controller
     {
         try {
             // Gabungan stateless() dan Bypass SSL (cURL error 60)
-            $googleUser = Socialite::driver('google')
+            /** @var \Laravel\Socialite\Two\GoogleProvider $driver */
+            $driver = Socialite::driver('google');
+            $googleUser = $driver
                 ->stateless()
                 ->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))
                 ->user();

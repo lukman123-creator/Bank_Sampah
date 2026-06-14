@@ -90,6 +90,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-white/5 transition-colors">
                     @forelse($transactions ?? [] as $trx)
+                    @php /** @var \App\Models\Transaction $trx */ @endphp
                     <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                         <td class="py-4 text-sm text-gray-600 dark:text-gray-400 font-medium transition-colors">{{ $trx->created_at->format('d M, Y \a\t H:i') }}</td>
                         <td class="py-4 text-sm font-bold text-gray-800 dark:text-gray-200 flex items-center gap-3 transition-colors">
