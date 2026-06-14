@@ -1,5 +1,16 @@
 <x-guest-layout>
-    <div class="min-h-screen flex w-full bg-[#0a110d]">
+    <style>
+        /* Override Chrome Autofill styling to match Dark Foliage theme */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #0a110d inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+    <div class="min-h-screen flex w-full bg-[#0a110d] animate-fadeIn">
         <!-- Left Side: Foliage Image & Welcome Text -->
         <div class="hidden lg:flex w-1/2 relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80');">
             <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-[#0a110d]/50 to-[#0a110d]"></div>
@@ -9,9 +20,11 @@
                     ♻️ Bank Sampah
                 </a>
 
-                <h1 class="text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                    Join Our <br> Movement
-                </h1>
+                <div class="inline-block overflow-hidden whitespace-nowrap border-r-4 border-white animate-typing">
+                    <h1 class="text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-2 tracking-tight">
+                        Join Our Movement
+                    </h1>
+                </div>
                 <p class="text-gray-300 text-lg max-w-md font-light leading-relaxed">
                     Daftar sekarang untuk mulai mengumpulkan poin dari sampah daur ulang dan ikut serta menjaga kebersihan lingkungan kita bersama.
                 </p>
@@ -32,7 +45,7 @@
                 <!-- Session Status & Errors -->
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                <form method="POST" action="{{ route('register') }}" class="space-y-8">
+                <form method="POST" action="{{ route('register') }}" class="space-y-8 animate-slideUp" style="animation-delay: 0.2s;">
                     @csrf
 
                     <!-- Name -->

@@ -1,5 +1,16 @@
 <x-guest-layout>
-    <div class="min-h-screen flex w-full bg-[#0a110d]">
+    <style>
+        /* Override Chrome Autofill styling to match Dark Foliage theme */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #0a110d inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+    <div class="min-h-screen flex w-full bg-[#0a110d] animate-fadeIn">
         <!-- Left Side: Foliage Image & Welcome Text -->
         <div class="hidden lg:flex w-1/2 relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80');">
             <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-[#0a110d]/50 to-[#0a110d]"></div>
@@ -9,9 +20,11 @@
                     ♻️ Bank Sampah
                 </a>
 
-                <h1 class="text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 tracking-tight">
-                    Welcome <br> Back
-                </h1>
+                <div class="inline-block overflow-hidden whitespace-nowrap border-r-4 border-white animate-typing">
+                    <h1 class="text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-2 tracking-tight">
+                        Welcome Back
+                    </h1>
+                </div>
                 <p class="text-gray-300 text-lg max-w-md font-light leading-relaxed">
                     Masuk ke akunmu untuk mulai mengelola setoran sampah, memantau saldo, dan berkontribusi menyelamatkan bumi hari ini.
                 </p>
@@ -32,12 +45,13 @@
                 <!-- Session Status & Errors -->
                 <x-auth-session-status class="mb-4" :status="session('status')" />
                 @if (session('error'))
-                    <div class="mb-6 p-4 rounded-lg bg-red-900/50 border border-red-500/50 text-red-200 text-sm">
-                        {{ session('error') }}
+                    <div class="mb-6 p-4 rounded-xl bg-[#140b0b] border border-red-900/30 text-red-400 text-sm flex items-center gap-3 animate-slideUp">
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span>{{ session('error') }}</span>
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-8">
+                <form method="POST" action="{{ route('login') }}" class="space-y-8 animate-slideUp" style="animation-delay: 0.2s;">
                     @csrf
 
                     <!-- Email Address -->
