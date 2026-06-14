@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\GoogleAuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\AdminAnalyticsController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,11 +32,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Route khusus Admin (Hanya bisa diakses admin)
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/analytics', [\App\Http\Controllers\AdminAnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/analytics', [AdminAnalyticsController::class, 'index'])->name('analytics');
     Route::patch('/transactions/{id}/approve', [AdminController::class, 'approveTransaction'])->name('transactions.approve');
-    
+
     // CRUD Rewards
-    Route::resource('rewards', \App\Http\Controllers\RewardController::class)->except(['create', 'show', 'edit']);
+    Route::resource('rewards', RewardController::class)->except(['create', 'show', 'edit']);
 });
 
 Route::middleware('auth')->group(function () {

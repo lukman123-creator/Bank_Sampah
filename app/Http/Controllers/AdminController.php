@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -12,6 +11,7 @@ class AdminController extends Controller
     {
         // Ambil semua transaksi beserta relasi usernya
         $transactions = Transaction::with('user')->orderBy('created_at', 'desc')->get();
+
         return view('admin.dashboard', compact('transactions'));
     }
 

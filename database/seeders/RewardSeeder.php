@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Reward;
 use Illuminate\Database\Seeder;
 
 class RewardSeeder extends Seeder
@@ -34,7 +34,7 @@ class RewardSeeder extends Seeder
         ];
 
         foreach ($rewards as $reward) {
-            \App\Models\Reward::create($reward);
+            Reward::create($reward);
         }
     }
 }

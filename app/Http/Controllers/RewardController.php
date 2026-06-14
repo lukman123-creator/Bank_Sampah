@@ -10,6 +10,7 @@ class RewardController extends Controller
     public function index()
     {
         $rewards = Reward::all();
+
         return view('admin.rewards.index', compact('rewards'));
     }
 
@@ -23,6 +24,7 @@ class RewardController extends Controller
         ]);
 
         Reward::create($validated);
+
         return back()->with('success', 'Hadiah berhasil ditambahkan!');
     }
 
@@ -36,12 +38,14 @@ class RewardController extends Controller
         ]);
 
         $reward->update($validated);
+
         return back()->with('success', 'Hadiah berhasil diupdate!');
     }
 
     public function destroy(Reward $reward)
     {
         $reward->delete();
+
         return back()->with('success', 'Hadiah berhasil dihapus!');
     }
 }

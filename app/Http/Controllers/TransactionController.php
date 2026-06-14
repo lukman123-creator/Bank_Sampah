@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
@@ -11,6 +12,7 @@ class TransactionController extends Controller
     {
         // Menampilkan transaksi milik user yang sedang login
         $transactions = Transaction::where('user_id', Auth::id())->latest()->get();
+
         return view('transactions.index', compact('transactions'));
     }
 
