@@ -33,14 +33,23 @@ class GoogleAuthController extends Controller
                 ->setHttpClient(new Client(['verify' => false]))
                 ->user();
 
-            // Simpan atau update data user
-            $user = User::updateOrCreate([
-                'google_id' => $googleUser->id,
-            ], [
-                'name' => $googleUser->name,
-                'email' => $googleUser->email,
-                'password' => null,
-            ]);
+            // Cari user berdasarkan email dulu biar nggak bentrok dengan akun manual yang udah ada
+            $user = User::where('email', $googleUser->email)->first();
+
+            if ($user) {
+                // Update google_id kalau belum ada
+                $user->update([
+                    'google_id' => $googleUser->id,
+                ]);
+            } else {
+                // Bikin user baru kalau belum pernah daftar sama sekali
+                $user = User::create([
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'google_id' => $googleUser->id,
+                    'password' => null,
+                ]);
+            }
 
             // Login-kan user ke sistem Laravel
             Auth::login($user);
@@ -54,10 +63,10 @@ class GoogleAuthController extends Controller
 
         } catch (ClientException $e) {
             // Clean Code: Tangani error konfigurasi Google secara graceful
-            return redirect('/login')->with('error', 'Konfigurasi Google Login belum disetting dengan benar. Silakan hubungi Administrator.');
+            return redirect('/login')->with('error', 'ClientException: ' . $e->getMessage());
         } catch (\Exception $e) {
             // Kita kembalikan ke halaman login dengan pesan error rapi
-            return redirect('/login')->with('error', 'Gagal login menggunakan Google. Silakan coba lagi.');
+            return redirect('/login')->with('error', 'Exception: ' . $e->getMessage());
         }
     }
 }
