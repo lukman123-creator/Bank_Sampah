@@ -31,7 +31,7 @@ Jika diterapkan di lingkungan masyarakat (seperti tingkat RT/RW atau Desa), apli
 Berikut adalah visualisasi bagaimana proses penyetoran sampah hingga penukaran hadiah (*reward*) berjalan di dalam aplikasi:
 
 ```mermaid
-graph TD
+flowchart TD
     %% Penentuan Warna (Styling)
     classDef userNode fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
     classDef adminNode fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
@@ -39,32 +39,38 @@ graph TD
     classDef startEnd fill:#f1f5f9,stroke:#475569,stroke-width:2px,stroke-dasharray: 5 5;
 
     %% Alur Kerja
-    Start([Mulai]) ::: startEnd --> Auth[Warga Login / Daftar via Google OAuth] ::: userNode
-    Auth --> Aksi{Pilih Menu} ::: userNode
+    Start([Mulai]) --> Auth[Warga Login / Daftar via Google OAuth]
+    Auth --> Aksi{Pilih Menu}
     
     %% Alur Setor Sampah
-    Aksi -->|Setor Sampah| Setor1[Warga Membawa Fisik Sampah ke Posko] ::: userNode
-    Setor1 --> Setor2[Warga Mengisi Form Setoran di Sistem] ::: userNode
-    Setor2 --> Setor3[Status Setoran: Menunggu Validasi Admin] ::: systemNode
+    Aksi -->|Setor Sampah| Setor1[Warga Membawa Fisik Sampah ke Posko]
+    Setor1 --> Setor2[Warga Mengisi Form Setoran di Sistem]
+    Setor2 --> Setor3[Status Setoran: Menunggu Validasi Admin]
     
-    Setor3 --> ValSetor{Admin Cek & Timbang Fisik} ::: adminNode
-    ValSetor -->|Tidak Valid / Ditolak| BatalSetor[Transaksi Dibatalkan] ::: systemNode
-    ValSetor -->|Valid / Disetujui| SuksesSetor[Saldo Warga Bertambah Otomatis] ::: systemNode
+    Setor3 --> ValSetor{Admin Cek & Timbang Fisik}
+    ValSetor -->|Tidak Valid / Ditolak| BatalSetor[Transaksi Dibatalkan]
+    ValSetor -->|Valid / Disetujui| SuksesSetor[Saldo Warga Bertambah Otomatis]
 
     %% Alur Tukar Saldo (Reward)
-    Aksi -->|Tukar Saldo| Tukar1[Warga Memilih Barang di Katalog Reward] ::: userNode
-    Tukar1 --> Tukar2[Warga Mengajukan Penukaran Saldo] ::: userNode
-    Tukar2 --> Tukar3[Saldo Ditahan Sementara & Status: Pending] ::: systemNode
+    Aksi -->|Tukar Saldo| Tukar1[Warga Memilih Barang di Katalog Reward]
+    Tukar1 --> Tukar2[Warga Mengajukan Penukaran Saldo]
+    Tukar2 --> Tukar3[Saldo Ditahan Sementara & Status: Pending]
 
-    Tukar3 --> ValTukar{Admin Cek Permintaan & Stok} ::: adminNode
-    ValTukar -->|Ditolak| BatalTukar[Saldo Dikembalikan Utuh ke Warga] ::: systemNode
-    ValTukar -->|Disetujui| SuksesTukar[Hadiah Fisik Diberikan & Saldo Terpotong Permanen] ::: systemNode
+    Tukar3 --> ValTukar{Admin Cek Permintaan & Stok}
+    ValTukar -->|Ditolak| BatalTukar[Saldo Dikembalikan Utuh ke Warga]
+    ValTukar -->|Disetujui| SuksesTukar[Hadiah Fisik Diberikan & Saldo Terpotong Permanen]
 
     %% Selesai
-    BatalSetor --> Selesai([Selesai]) ::: startEnd
+    BatalSetor --> Selesai([Selesai])
     SuksesSetor --> Selesai
     BatalTukar --> Selesai
     SuksesTukar --> Selesai
+
+    %% Penerapan Warna
+    class Start,Selesai startEnd;
+    class Auth,Aksi,Setor1,Setor2,Tukar1,Tukar2 userNode;
+    class Setor3,BatalSetor,SuksesSetor,Tukar3,BatalTukar,SuksesTukar systemNode;
+    class ValSetor,ValTukar adminNode;
 ```
 
 ---
