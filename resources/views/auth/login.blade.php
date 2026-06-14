@@ -1,51 +1,66 @@
 <x-guest-layout>
     <style>
-        /* Override Chrome Autofill styling to match Dark Foliage theme */
+        /* Override Chrome Autofill styling */
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus, 
         input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 30px #0a110d inset !important;
-            -webkit-text-fill-color: white !important;
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: #1f2937 !important;
             transition: background-color 5000s ease-in-out 0s;
         }
+        .dark input:-webkit-autofill,
+        .dark input:-webkit-autofill:hover, 
+        .dark input:-webkit-autofill:focus, 
+        .dark input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #0a110d inset !important;
+            -webkit-text-fill-color: white !important;
+        }
     </style>
-    <div class="min-h-screen flex w-full bg-[#0a110d] animate-fadeIn">
+    <div class="min-h-screen flex w-full bg-white dark:bg-[#0a110d] animate-fadeIn transition-colors duration-300">
+        
+        <!-- Theme Toggle Floating -->
+        <div class="absolute top-8 right-8 z-50">
+            <button @click="toggleTheme()" class="p-2.5 rounded-full bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors border border-gray-200 dark:border-white/10 shadow-sm">
+                <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                <svg x-show="darkMode" style="display: none;" class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
+        </div>
         <!-- Left Side: Foliage Image & Welcome Text -->
         <div class="hidden lg:flex w-1/2 relative bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80');">
-            <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-[#0a110d]/50 to-[#0a110d]"></div>
+            <div class="absolute inset-0 bg-white/70 dark:bg-gradient-to-r dark:from-black/70 dark:via-[#0a110d]/50 dark:to-[#0a110d] transition-colors duration-300"></div>
             
             <div class="relative z-10 flex flex-col justify-center px-16 xl:px-24 w-full h-full">
-                <a href="/" class="absolute top-10 left-16 flex items-center text-green-400 font-bold text-2xl tracking-wider">
+                <a href="/" class="absolute top-10 left-16 flex items-center text-green-600 dark:text-green-400 font-bold text-2xl tracking-wider transition-colors">
                     ♻️ Bank Sampah
                 </a>
 
-                <div class="inline-block overflow-hidden whitespace-nowrap border-r-4 border-white animate-typing">
-                    <h1 class="text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-2 tracking-tight">
+                <div class="inline-block overflow-hidden whitespace-nowrap border-r-4 border-gray-900 dark:border-white animate-typing">
+                    <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-2 tracking-tight transition-colors">
                         Welcome Back
                     </h1>
                 </div>
-                <p class="text-gray-300 text-lg max-w-md font-light leading-relaxed">
+                <p class="text-gray-700 dark:text-gray-300 text-lg max-w-md font-medium dark:font-light leading-relaxed transition-colors">
                     Masuk ke akunmu untuk mulai mengelola setoran sampah, memantau saldo, dan berkontribusi menyelamatkan bumi hari ini.
                 </p>
             </div>
         </div>
 
         <!-- Right Side: Login Form -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-16 xl:p-24 bg-[#0a110d] relative">
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-16 xl:p-24 bg-white dark:bg-[#0a110d] relative transition-colors duration-300">
             
             <!-- Mobile Logo -->
-            <a href="/" class="lg:hidden absolute top-10 left-8 flex items-center text-green-400 font-bold text-2xl tracking-wider">
+            <a href="/" class="lg:hidden absolute top-10 left-8 flex items-center text-green-600 dark:text-green-400 font-bold text-2xl tracking-wider transition-colors">
                 ♻️ Bank Sampah
             </a>
 
             <div class="w-full max-w-md">
-                <h2 class="text-3xl font-bold text-white mb-10">Sign in</h2>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-10 transition-colors">Sign in</h2>
 
                 <!-- Session Status & Errors -->
                 <x-auth-session-status class="mb-4" :status="session('status')" />
                 @if (session('error'))
-                    <div class="mb-6 p-4 rounded-xl bg-[#140b0b] border border-red-900/30 text-red-400 text-sm flex items-center gap-3 animate-slideUp">
+                    <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 dark:bg-[#140b0b] dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm flex items-center gap-3 animate-slideUp transition-colors">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                         <span>{{ session('error') }}</span>
                     </div>
@@ -57,56 +72,56 @@
                     <!-- Email Address -->
                     <div class="relative">
                         <input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" 
-                            class="peer w-full bg-transparent border-0 border-b-2 border-gray-700 text-white focus:border-green-500 focus:ring-0 px-0 py-2 placeholder-transparent transition-colors" placeholder="Email" />
-                        <label for="email" class="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-600 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-green-500">
+                            class="peer w-full bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:border-green-600 dark:focus:border-green-500 focus:ring-0 px-0 py-2 placeholder-transparent transition-colors" placeholder="Email" />
+                        <label for="email" class="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 dark:peer-placeholder-shown:text-gray-600 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-green-600 dark:peer-focus:text-green-500">
                             Your Email
                         </label>
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400 text-xs" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600 dark:text-red-400 text-xs" />
                     </div>
 
                     <!-- Password -->
                     <div class="relative">
                         <input id="password" type="password" name="password" required autocomplete="current-password" 
-                            class="peer w-full bg-transparent border-0 border-b-2 border-gray-700 text-white focus:border-green-500 focus:ring-0 px-0 py-2 placeholder-transparent transition-colors" placeholder="Password" />
-                        <label for="password" class="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-600 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-green-500">
+                            class="peer w-full bg-transparent border-0 border-b-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:border-green-600 dark:focus:border-green-500 focus:ring-0 px-0 py-2 placeholder-transparent transition-colors" placeholder="Password" />
+                        <label for="password" class="absolute left-0 -top-3.5 text-gray-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 dark:peer-placeholder-shown:text-gray-600 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-green-600 dark:peer-focus:text-green-500">
                             Enter Password
                         </label>
-                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-400 text-xs" />
+                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-600 dark:text-red-400 text-xs" />
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
                     <div class="flex items-center justify-between pt-2">
                         <label for="remember_me" class="inline-flex items-center cursor-pointer">
-                            <input id="remember_me" type="checkbox" class="rounded border-gray-700 bg-gray-900 text-green-500 shadow-sm focus:ring-green-500 focus:ring-offset-gray-900" name="remember">
-                            <span class="ms-2 text-sm text-gray-400">{{ __('Remember me') }}</span>
+                            <input id="remember_me" type="checkbox" class="rounded border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-green-600 dark:text-green-500 shadow-sm focus:ring-green-600 dark:focus:ring-green-500 focus:ring-offset-white dark:focus:ring-offset-gray-900" name="remember">
+                            <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
                         </label>
 
                         @if (Route::has('password.request'))
-                            <a class="text-sm text-gray-500 hover:text-green-400 transition-colors" href="{{ route('password.request') }}">
+                            <a class="text-sm text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-colors" href="{{ route('password.request') }}">
                                 {{ __('Forgot password?') }}
                             </a>
                         @endif
                     </div>
 
                     <div class="pt-4 flex items-center justify-between gap-6">
-                        <button type="submit" class="w-full bg-[#108945] hover:bg-[#0c6b35] text-white font-bold py-3.5 px-4 rounded-lg shadow-lg hover:shadow-green-900/50 transition-all duration-300">
+                        <button type="submit" class="w-full bg-[#108945] hover:bg-[#0c6b35] text-white font-bold py-3.5 px-4 rounded-lg shadow-[0_0_15px_rgba(16,137,69,0.3)] transition-all duration-300">
                             Sign in
                         </button>
                     </div>
 
                     <div class="mt-8 flex items-center justify-between">
-                        <span class="text-sm text-gray-500">Not a Member? <a href="{{ route('register') }}" class="text-green-500 hover:text-green-400 font-semibold ml-1">Sign up here</a></span>
+                        <span class="text-sm text-gray-500">Not a Member? <a href="{{ route('register') }}" class="text-green-600 dark:text-green-500 hover:text-green-500 dark:hover:text-green-400 font-semibold ml-1">Sign up here</a></span>
                     </div>
                 </form>
             </div>
 
-            <!-- Vertical Social Login (Like in Reference) -->
+            <!-- Vertical Social Login -->
             <div class="hidden sm:flex absolute right-8 top-1/2 transform -translate-y-1/2 flex-col gap-6 items-center">
-                <div class="w-[1px] h-32 bg-gray-700"></div>
-                <span class="text-gray-600 text-xs font-bold tracking-widest uppercase rotate-90 my-6">OR</span>
-                <div class="w-[1px] h-32 bg-gray-700"></div>
+                <div class="w-[1px] h-32 bg-gray-300 dark:bg-gray-700 transition-colors"></div>
+                <span class="text-gray-400 dark:text-gray-600 text-xs font-bold tracking-widest uppercase rotate-90 my-6 transition-colors">OR</span>
+                <div class="w-[1px] h-32 bg-gray-300 dark:bg-gray-700 transition-colors"></div>
                 
-                <a href="{{ route('login.google') }}" class="mt-8 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-all backdrop-blur-sm group" title="Login with Google">
+                <a href="{{ route('login.google') }}" class="mt-8 bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 p-3 rounded-full text-white transition-all backdrop-blur-sm group" title="Login with Google">
                     <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -119,11 +134,11 @@
             <!-- Mobile Google Login -->
             <div class="sm:hidden w-full max-w-md mt-6 pb-8">
                 <div class="flex items-center justify-center mb-6">
-                    <span class="border-b border-gray-700 flex-1 mr-3"></span>
-                    <span class="text-sm text-gray-600 font-bold">OR</span>
-                    <span class="border-b border-gray-700 flex-1 ml-3"></span>
+                    <span class="border-b border-gray-300 dark:border-gray-700 transition-colors flex-1 mr-3"></span>
+                    <span class="text-sm text-gray-500 font-bold">OR</span>
+                    <span class="border-b border-gray-300 dark:border-gray-700 transition-colors flex-1 ml-3"></span>
                 </div>
-                <a href="{{ route('login.google') }}" class="w-full flex items-center justify-center px-4 py-3 bg-white/5 border border-gray-700 rounded-lg text-white hover:bg-white/10 transition">
+                <a href="{{ route('login.google') }}" class="w-full flex items-center justify-center px-4 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-white/10 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white transition-colors">
                     <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>

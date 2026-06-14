@@ -13,16 +13,31 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+        <!-- Pre-load Dark Mode to prevent FOUC -->
         <script>
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
             } else {
                 document.documentElement.classList.remove('dark')
             }
         </script>
     </head>
-    <body class="font-sans text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300">
+    <body x-data="{ 
+            darkMode: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+            toggleTheme() {
+                this.darkMode = !this.darkMode;
+                if (this.darkMode) {
+                    document.documentElement.classList.add('dark');
+                    localStorage.theme = 'dark';
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.theme = 'light';
+                }
+            }
+        }" 
+        class="font-sans text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300">
         {{ $slot }}
     </body>
 </html>
