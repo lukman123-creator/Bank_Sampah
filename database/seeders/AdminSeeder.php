@@ -22,5 +22,15 @@ class AdminSeeder extends Seeder
                 'role' => 'admin', // Role diset sebagai admin
             ]
         );
+
+        User::updateOrCreate(
+            ['email' => 'user@banksampah.com'], // Email untuk login tester user
+            [
+                'name' => 'Tester User',
+                'password' => Hash::make('user12345'), // Password untuk login
+                'role' => 'user', // Role diset sebagai user biasa
+                'balance' => 50000, // Saldo awal simulasi
+            ]
+        );
     }
 }
