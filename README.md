@@ -1,7 +1,7 @@
 <div align="center">
-    <img src="public/logo.png" alt="Bank Sampah Logo" width="120" style="border-radius: 50%;">
-    <h1>♻️ Bank Sampah Application</h1>
-    <p>A modern, interactive, and fully-featured Waste Management System built with Laravel.</p>
+    <img src="public/logo.png" alt="Logo Bank Sampah" width="120" style="border-radius: 50%;">
+    <h1>♻️ Sistem Informasi Bank Sampah</h1>
+    <p>Aplikasi pengelolaan sampah berbasis web untuk mewujudkan lingkungan bersih dan ekonomi sirkular.</p>
 
 [![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -12,75 +12,83 @@
 
 ---
 
-## 📖 About The Project
+## 📖 Latar Belakang & Tujuan Aplikasi
 
-**Bank Sampah** is a web-based application designed to digitalize waste management processes. It enables users to deposit their waste in exchange for a virtual balance, which can later be redeemed for various rewards (e.g., Groceries, Phone Credit, Vouchers). The system is designed with a modern, glassmorphic UI, dynamic number animations, and seamless Google OAuth integration.
+**Bank Sampah** adalah platform digital yang dirancang untuk mendigitalisasi proses pengelolaan dan penyetoran sampah di tingkat masyarakat. 
 
-## ✨ Key Features
+**Tujuan Utama:**
+1. **Meningkatkan Kesadaran Lingkungan:** Mengedukasi dan memotivasi masyarakat untuk memilah sampah dari rumah tangga.
+2. **Ekonomi Sirkular:** Mengubah paradigma masyarakat dari "membuang sampah" menjadi "menabung sampah" yang memiliki nilai ekonomis.
+3. **Digitalisasi Administrasi:** Menggantikan pencatatan manual di posko bank sampah desa/RT menjadi sistem yang terpusat, transparan, dan dapat dipantau *real-time*.
 
-### 👤 User Features
-- **Google OAuth Login:** Seamless, one-click sign-in and registration via Google.
-- **Interactive Dashboard:** Modern tracking of deposited waste, total balance, and transaction history.
-- **Reward Catalog:** Redeem accumulated balance for physical or digital rewards (Simulated Withdrawals).
-- **Responsive & Dynamic UI:** Built with Tailwind CSS, featuring full **Dark/Light Mode** support and satisfying micro-animations (AlpineJS).
-
-### 🛡️ Admin Features
-- **Centralized Dashboard:** Comprehensive analytics with animated counters and charts.
-- **Transaction Management:** Approve, decline, or review waste deposits and reward redemptions.
-- **Reward Management (CRUD):** Dynamically add, edit, or delete items available in the Reward Catalog.
-- **Automated Calculations:** Accurate logic for total deposits vs. total payouts.
+**Peran dalam Masyarakat:**
+Jika diterapkan di lingkungan masyarakat (seperti tingkat RT/RW atau Desa), aplikasi ini akan berperan sebagai **jembatan antara warga dan pengepul/pengurus bank sampah**. Warga dapat dengan mudah melihat saldo yang terkumpul dari sampah yang mereka setorkan, dan menukarkannya (*redeem*) menjadi kebutuhan sehari-hari seperti Sembako, Pulsa, atau ditarik menjadi Uang Tunai. Hal ini akan memacu partisipasi aktif warga dalam menjaga kebersihan lingkungan karena adanya *reward* yang jelas dan transparan.
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Fitur Utama
+
+### 👤 Fitur Warga (Pengguna)
+- **Login Instan via Google:** Memudahkan warga yang awam teknologi untuk masuk ke dalam sistem hanya dengan satu klik (Google OAuth).
+- **Dashboard Interaktif:** Menampilkan grafik setoran, total saldo yang dimiliki, dan riwayat transaksi secara *real-time*.
+- **Katalog Penukaran (Reward):** Warga dapat menukarkan saldo sampah mereka dengan barang nyata (sembako, pulsa, token listrik, dll).
+- **Tampilan Ramah Pengguna:** Desain *modern* (*Glassmorphism*) yang mendukung **Dark/Light Mode** serta ramah diakses dari HP (Responsif).
+
+### 🛡️ Fitur Pengurus (Admin)
+- **Dashboard Analitik Terpusat:** Pantauan total sampah yang masuk, total saldo yang dikeluarkan, serta status transaksi.
+- **Manajemen Transaksi Warga:** Memvalidasi (Setujui/Tolak) setiap setoran sampah maupun permintaan penukaran hadiah dari warga.
+- **Manajemen Katalog (CRUD):** Fleksibilitas untuk menambah, mengubah, atau menghapus daftar hadiah/sembako yang tersedia di sistem.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
 
 - **Backend:** [Laravel 11](https://laravel.com)
 - **Frontend UI:** Blade Templates, [Tailwind CSS](https://tailwindcss.com) (Vanilla), Glassmorphism UI
 - **Frontend Logic:** [Alpine.js](https://alpinejs.dev)
 - **Database:** MySQL
-- **Authentication:** Laravel Breeze, Laravel Socialite (Google Provider)
+- **Autentikasi:** Laravel Breeze, Laravel Socialite (Google Login Integration)
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Panduan Instalasi (Untuk Developer/Dosen Penguji)
 
-Follow these instructions to set up the project locally on your machine.
+Untuk menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
 
-### Prerequisites
-Make sure you have the following installed:
+### Persyaratan Sistem
 - PHP >= 8.2
 - Composer
 - Node.js & npm
-- MySQL (XAMPP/Laragon/DBngin)
+- MySQL (XAMPP/Laragon)
 
-### Installation
+### Langkah Instalasi
 
-1. **Clone the repository**
+1. **Clone repositori ini**
    ```bash
    git clone https://github.com/lukman123-creator/Bank_Sampah.git
    cd Bank_Sampah
    ```
 
-2. **Install PHP dependencies**
+2. **Install *dependencies* PHP**
    ```bash
    composer install
    ```
 
-3. **Install NPM dependencies & build assets**
+3. **Install *dependencies* NPM & *build asset***
    ```bash
    npm install
    npm run build
    ```
 
-4. **Environment Setup**
-   Copy the example `.env` file and generate the application key.
+4. **Pengaturan *Environment***
+   Salin file `.env.example` menjadi `.env`, lalu *generate* kunci aplikasi.
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
 
-5. **Configure the Database & Google OAuth**
-   Open the `.env` file and configure your local database connection:
+5. **Pengaturan Database & Google OAuth**
+   Buka file `.env` dan sesuaikan pengaturan *database*:
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -89,44 +97,34 @@ Make sure you have the following installed:
    DB_USERNAME=root
    DB_PASSWORD=
    ```
-   *Note: Ensure you have created an empty database named `bank_sampah_db` in your MySQL server.*
+   *(Pastikan Anda telah membuat database kosong bernama `bank_sampah_db` di MySQL).*
 
-   Add your Google OAuth Credentials:
+   *(Opsional)* Masukkan Kredensial Google OAuth untuk fitur Login Google:
    ```env
-   GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
-   GOOGLE_CLIENT_SECRET=your-client-secret
+   GOOGLE_CLIENT_ID=client-id-anda.apps.googleusercontent.com
+   GOOGLE_CLIENT_SECRET=client-secret-anda
    GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google/callback
    ```
 
-6. **Migrate and Seed the Database**
-   This command will build the database schema and populate it with the default Admin account and initial Reward Catalog items.
+6. **Migrasi Database dan *Seeding***
+   Perintah ini akan membuat semua struktur tabel serta mengisi data awal (Akun Admin dan Katalog Hadiah default).
    ```bash
    php artisan migrate --seed
    ```
 
-7. **Run the Application**
+7. **Jalankan Aplikasi**
    ```bash
    php artisan serve
    ```
-   The application will be accessible at `http://localhost:8000`.
+   Aplikasi siap diakses melalui browser di alamat `http://localhost:8000`.
 
 ---
 
-## 🔑 Default Credentials
+## 🔑 Hak Akses (*Credentials*) Default
 
-After running the database seeder, an Admin account is automatically generated for testing purposes:
+Setelah menjalankan perintah `migrate --seed`, Anda dapat menggunakan akun berikut untuk masuk ke Panel Admin:
 
 - **Email:** `admin@banksampah.com`
 - **Password:** `password`
 
-*Regular users can register or log in using the "Sign in with Google" button.*
-
----
-
-## 📜 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+*(Untuk mencoba fitur sebagai warga/masyarakat biasa, disarankan menggunakan fitur "Sign in with Google").*
