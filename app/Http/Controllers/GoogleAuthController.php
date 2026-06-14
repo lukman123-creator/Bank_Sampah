@@ -41,10 +41,12 @@ class GoogleAuthController extends Controller
             // Arahkan ke dashboard
             return redirect('/dashboard');
 
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            // Clean Code: Tangani error konfigurasi Google secara graceful
+            return redirect('/login')->with('error', 'Konfigurasi Google Login belum disetting dengan benar. Silakan hubungi Administrator.');
         } catch (\Exception $e) {
-            // Kita tampilkan seluruh object errornya ($e), bukan cuma pesannya saja
-            // Supaya kalau error lagi, kita bisa lihat nama error aslinya
-            dd('PESAN ERROR:', $e->getMessage(), 'DETAIL ERROR:', $e);
+            // Kita kembalikan ke halaman login dengan pesan error rapi
+            return redirect('/login')->with('error', 'Gagal login menggunakan Google. Silakan coba lagi.');
         }
     }
 }

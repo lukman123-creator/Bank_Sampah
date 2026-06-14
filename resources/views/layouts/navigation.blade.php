@@ -74,7 +74,8 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div class="pt-2 pb-3 space-y-1">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
+        <div class="pt-2 pb-3 space-y-1">
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
             {{ __('Dashboard') }}
         </x-responsive-nav-link>
@@ -112,6 +113,7 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
+            </div>
             </div>
         </div>
     </div>
