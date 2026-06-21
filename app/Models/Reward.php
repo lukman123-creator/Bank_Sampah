@@ -16,5 +16,6 @@ class Reward extends Model
         'price',
         'icon',
         'description',
+        'stock', // <-- TAMBAHKAN INI
     ];
 }

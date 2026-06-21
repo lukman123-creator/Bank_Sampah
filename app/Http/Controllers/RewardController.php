@@ -9,7 +9,8 @@ class RewardController extends Controller
 {
     public function index()
     {
-        $rewards = Reward::all();
+        // Panggil data dari yang terbaru (latest) biar yang baru ditambahin muncul di atas
+        $rewards = Reward::latest()->get();
 
         return view('admin.rewards.index', compact('rewards'));
     }
@@ -19,6 +20,7 @@ class RewardController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0', // Tambahan validasi stok
             'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
@@ -33,13 +35,14 @@ class RewardController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0', // Tambahan validasi stok
             'icon' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
 
         $reward->update($validated);
 
-        return back()->with('success', 'Hadiah berhasil diupdate!');
+        return back()->with('success', 'Data hadiah berhasil diupdate!');
     }
 
     public function destroy(Reward $reward)

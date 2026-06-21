@@ -3,23 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AdminAnalyticsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Get withdrawals grouped by name
-        $withdrawals = Transaction::where('type', 'withdrawal')
-            ->select('jenis_sampah', DB::raw('count(*) as count'), DB::raw('sum(total_harga) as total_amount'))
-            ->groupBy('jenis_sampah')
-            ->orderBy('count', 'desc')
-            ->get();
+        $month = $request->input('month', date('m'));
+        $year = $request->input('year', date('Y'));
 
-        // Format for Chart.js
-        $chartLabels = $withdrawals->pluck('jenis_sampah')->toArray();
-        $chartData = $withdrawals->pluck('count')->toArray();
+        $query = Transaction::with(['user', 'wasteType'])
+            ->whereMonth('created_at', $month)
+            ->whereYear('created_at', $year);
 
-        return view('admin.analytics', compact('withdrawals', 'chartLabels', 'chartData'));
+        $allTransactions = $query->latest()->get();
+        $semuaTrxSukses = $allTransactions->whereIn('status', ['sukses', 'approved']);
+
+        $totalDeposit = $semuaTrxSukses->where('type', 'deposit')->sum('total_harga');
+        $totalBerat = $semuaTrxSukses->where('type', 'deposit')->sum('berat_kg');
+        $totalTarik = $semuaTrxSukses->whereIn('type', ['withdrawal', 'redemption'])->sum('total_harga');
+
+        $chartData = $semuaTrxSukses->where('type', 'deposit')
+            ->groupBy('waste_type_id')
+            ->map(function ($group) {
+                return [
+                    'name' => $group->first()->wasteType->name ?? 'Lainnya',
+                    'total' => $group->sum('berat_kg')
+                ];
+            })->values();
+
+        $barLabels = $chartData->pluck('name')->toJson();
+        $barData = $chartData->pluck('total')->toJson();
+
+        return view('admin.analytics', compact(
+            'allTransactions', 'totalDeposit', 'totalBerat', 'totalTarik',
+            'month', 'year', 'barLabels', 'barData'
+        ));
     }
 }

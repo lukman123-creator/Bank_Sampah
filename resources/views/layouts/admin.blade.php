@@ -4,164 +4,101 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }} - Admin</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
+    <title>Admin Panel - Bank Sampah</title>
+    <link rel="icon" href="{{ asset('images/logo1.png') }}" type="image/png">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('numberCounter', (target, isCurrency = false) => ({
-                count: 0,
-                target: Number(target),
+                count: 0, target: Number(target),
                 init() {
-                    let duration = 1500; // 1.5 seconds
-                    let steps = 60;
-                    let stepValue = this.target / steps;
-                    let currentStep = 0;
+                    let duration = 1000; let steps = 30; let stepValue = this.target / steps; let currentStep = 0;
                     let interval = setInterval(() => {
-                        currentStep++;
-                        this.count = Math.floor(stepValue * currentStep);
-                        if (currentStep >= steps) {
-                            this.count = this.target;
-                            clearInterval(interval);
-                        }
+                        currentStep++; this.count = Math.floor(stepValue * currentStep);
+                        if (currentStep >= steps) { this.count = this.target; clearInterval(interval); }
                     }, duration / steps);
                 },
-                formatted() {
-                    if (isCurrency) {
-                        return new Intl.NumberFormat('id-ID').format(this.count);
-                    }
-                    return this.count;
-                }
+                formatted() { return isCurrency ? new Intl.NumberFormat('id-ID').format(this.count) : this.count; }
             }))
         });
-
-        // Pre-load Dark Mode to prevent FOUC
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
+        } else { document.documentElement.classList.remove('dark') }
     </script>
 </head>
-<body x-data="{ 
-        darkMode: localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
-        toggleTheme() {
-            this.darkMode = !this.darkMode;
-            if (this.darkMode) {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            }
-        }
-    }" 
-    class="font-sans antialiased bg-gray-50 dark:bg-[#0a110d] text-gray-900 dark:text-gray-100 flex min-h-screen selection:bg-green-500 selection:text-white transition-colors duration-300">
+<body x-data="{ darkMode: localStorage.theme === 'dark', sidebarOpen: false, toggleTheme() { this.darkMode = !this.darkMode; localStorage.theme = this.darkMode ? 'dark' : 'light'; if(this.darkMode) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); } }" class="font-sans antialiased text-gray-900 dark:text-gray-100 selection:bg-emerald-500 selection:text-white">
 
-    <!-- Background Image & Gradient -->
-    <div class="fixed inset-0 z-[-1] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
-        <div class="absolute inset-0 bg-white/95 dark:bg-gradient-to-b dark:from-[#0a110d]/90 dark:via-[#0a110d]/70 dark:to-[#0a110d] backdrop-blur-[2px] transition-colors duration-300"></div>
-    </div>
-
-    <!-- Mobile Sidebar Overlay & Toggle (Alpine.js) -->
-    <div x-data="{ sidebarOpen: false }" class="flex w-full min-h-screen">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
         
-        <!-- Mobile Header -->
-        <div class="md:hidden flex items-center justify-between p-4 bg-white/80 dark:bg-[#0a110d]/80 backdrop-blur-md text-gray-900 dark:text-white w-full absolute top-0 z-20 border-b border-gray-200 dark:border-white/5 animate-fadeIn transition-colors duration-300">
-            <div class="font-bold text-xl flex items-center gap-2 text-green-600 dark:text-green-400">
-                ♻️ AdminPanel
-            </div>
-            <div class="flex items-center gap-3">
-                <button @click="toggleTheme()" class="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors">
-                    <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                    <svg x-show="darkMode" style="display: none;" class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                </button>
-                <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <aside :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}" class="absolute md:relative z-20 w-64 min-h-screen bg-white/80 dark:bg-[#0a110d]/80 backdrop-blur-xl text-gray-900 dark:text-white flex flex-col transition-all duration-300 md:translate-x-0 pt-16 md:pt-0 border-r border-gray-200 dark:border-white/10 animate-slideUp">
-            
-            <div class="p-8 hidden md:flex items-center gap-3">
-                <span class="text-3xl text-green-600 dark:text-green-500">♻️</span>
-                <span class="font-bold text-xl tracking-wide">AeuxAdmin</span>
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 md:relative md:translate-x-0 flex flex-col">
+            <div class="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-700 shrink-0">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8 w-auto">
+                </a>
             </div>
 
-            <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                Navigation
+            <div class="overflow-y-auto flex-grow custom-scrollbar">
+                <nav class="px-4 py-6 space-y-1">
+                    <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Utama</p>
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        Dashboard
+                    </a>
+                    
+                    <a href="{{ route('admin.transactions.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors {{ request()->routeIs('admin.transactions.index') ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                        Kelola Antrean
+                    </a>
+                    
+                    <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Master Data</p>
+                    <a href="{{ route('admin.waste-types.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">Kelola Sampah</a>
+                    <a href="{{ route('admin.rewards.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">Kelola Hadiah</a>
+
+                    <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Gudang & Penjualan</p>
+                    <a href="{{ route('admin.stocks.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">Kelola Stok</a>
+                    <a href="{{ route('admin.sales.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">Riwayat Penjualan</a>
+
+                    <p class="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider mt-6 mb-2">Rekapitulasi</p>
+                    <a href="{{ route('admin.analytics') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">Laporan Transaksi</a>
+                </nav>
             </div>
 
-            <nav class="flex-1 px-4 space-y-2">
-                <!-- Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.dashboard') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
-                    <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                    Dashboard
-                </a>
-
-                <!-- Katalog Hadiah -->
-                <a href="{{ route('admin.rewards.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.rewards.*') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
-                    <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                    Katalog Hadiah
-                </a>
-
-                <!-- Master Sampah -->
-                <a href="{{ route('admin.waste-types.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.waste-types.*') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
-                    <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    Master Sampah
-                </a>
-
-                <!-- Analytics -->
-                <a href="{{ route('admin.analytics') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.analytics') ? 'bg-green-50 dark:bg-[#108945]/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white border border-transparent' }} rounded-2xl font-medium transition-colors">
-                    <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    Analytics
-                </a>
-            </nav>
-
-            <div class="p-6 mt-auto">
-                <div class="bg-gray-100 dark:bg-white/5 rounded-2xl p-4 flex items-center gap-3 border border-gray-200 dark:border-white/10 transition-colors">
-                    <div class="w-10 h-10 rounded-full bg-green-600 dark:bg-[#108945] flex items-center justify-center text-white font-bold transition-colors">
-                        {{ substr(Auth::user()->name, 0, 1) }}
-                    </div>
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</div>
                     <div class="flex-1 overflow-hidden">
-                        <div class="text-sm font-bold text-gray-900 dark:text-white truncate transition-colors">{{ Auth::user()->name }}</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400 truncate transition-colors">{{ Auth::user()->email }}</div>
+                        <div class="text-sm font-bold truncate">{{ Auth::user()->name }}</div>
+                        <div class="text-xs text-gray-500 truncate">Admin</div>
                     </div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors" title="Logout">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                        </button>
+                        <button type="submit" class="p-2 text-gray-500 hover:text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
                     </form>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content (Dark Canvas) -->
-        <main class="flex-1 w-full relative overflow-y-auto mt-14 md:mt-0 transition-colors duration-300">
-            <!-- Header section for desktop toggle if wanted -->
-            <div class="hidden md:flex justify-end p-6 absolute top-0 right-0 z-20">
-                <button @click="toggleTheme()" class="p-2.5 rounded-full bg-white/80 dark:bg-[#0a110d]/80 backdrop-blur-md text-gray-500 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 transition-colors border border-gray-200 dark:border-white/10 shadow-sm">
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="h-16 flex items-center justify-between md:justify-end px-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shrink-0 z-20 shadow-sm">
+                <div class="flex items-center md:hidden gap-3">
+                    <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+                </div>
+                <button @click="toggleTheme()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                     <svg x-show="darkMode" style="display: none;" class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
-            </div>
+            </header>
 
-            <div class="p-6 md:p-10 lg:p-12 h-full z-10 relative">
-                {{ $slot }}
-            </div>
-        </main>
+            <main class="flex-1 overflow-x-hidden overflow-y-auto custom-scrollbar">
+                <div class="p-6 md:p-8">
+                    {{ $slot }}
+                </div>
+            </main>
+        </div>
 
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-20 md:hidden" style="display: none;"></div>
     </div>
+    <style>.custom-scrollbar::-webkit-scrollbar { width: 6px; } .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; } .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }</style>
 </body>
 </html>

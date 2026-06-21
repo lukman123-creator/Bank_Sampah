@@ -9,15 +9,23 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    // Pastikan ini sudah ada (agar bisa diisi datanya)
     protected $guarded = [];
-    // (Atau kalau kamu pakai $fillable, biarkan saja $fillable-nya)
 
-    // ==========================================
-    // TAMBAHKAN FUNGSI INI AGAR TIDAK ERROR
-    // ==========================================
+    // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // TAMBAHKAN: Relasi ke Jenis Sampah
+    public function wasteType()
+    {
+        return $this->belongsTo(WasteType::class);
+    }
+
+    // TAMBAHKAN: Relasi ke Hadiah/Reward
+    public function reward()
+    {
+        return $this->belongsTo(Reward::class);
     }
 }
